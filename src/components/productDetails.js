@@ -2,34 +2,41 @@ import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 
-export default function ProductDetails(props) {
-  const [product, setProduct] = useState({});
+function ProductDetails(props) {
+  const [oneProduct, setOneProduct] = useState({});
 
   useEffect(() => {
     const getData = async () => {
       let data = await axios.get(
         `http://localhost:5000/api/products/${props.match.params.id}`
       );
+      console.log("from redux-one");
       console.log(data.data);
-      setProduct(data.data);
+      setOneProduct(data.data);
     };
     getData();
   }, []);
+
   return (
     <div>
       <div className="one-product-container">
-        <h3>{product.name}</h3>
-        <h5>{product.brand}</h5>
+        <h3>{oneProduct.name}</h3>
+        <h5>{oneProduct.brand}</h5>
         <ul>
-          <li className="one-product-li">Cores: {product.cores}</li>
-          <li className="one-product-li">Threads: {product.threads}</li>
-          <li className="one-product-li">Base clock: {product.baseClock}</li>
-          <li className="one-product-li">Boost clock: {product.turboClock}</li>
-          <li className="one-product-li">Price: {product.price}</li>
-          <li className="one-product-li">Generation: {product.generation}</li>
+          <li className="one-product-li">Cores: {oneProduct.cores}</li>
+          <li className="one-product-li">Threads: {oneProduct.threads}</li>
+          <li className="one-product-li">Base clock: {oneProduct.baseClock}</li>
+          <li className="one-product-li">
+            Boost clock: {oneProduct.turboClock}
+          </li>
+          <li className="one-product-li">Price: {oneProduct.price}</li>
+          <li className="one-product-li">
+            Generation: {oneProduct.generation}
+          </li>
         </ul>
       </div>
-      ;
     </div>
   );
 }
+
+export default ProductDetails;

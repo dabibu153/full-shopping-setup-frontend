@@ -1,21 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import getAllProducts from "../redux/actions/products";
 import axios from "axios";
+
 function Shop() {
-  const [products, setProducts] = useState([]);
+  const allProducts = useSelector((state) => state.productsReducer);
+  console.log("innitial state shop");
+  console.log(allProducts);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getData = async () => {
       let data = await axios.get("http://localhost:5000/api/products");
-      console.log(data.data);
-      setProducts(data.data);
+      console.log("from redux");
+      console.log(data);
+
+      dispatch(getAllProducts(data.data));
     };
     getData();
   }, []);
+
+  if (!allProducts) {
+    return "Loading....";
+  }
   return (
     <div>
       <div className="products-container">
-        {products.map((cpu) => (
+        {allProducts.map((cpu) => (
           <div className="product-container">
             <h3>{cpu.name}</h3>
             <h5>{cpu.brand}</h5>
