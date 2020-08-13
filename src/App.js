@@ -5,6 +5,7 @@ import Shop from "./components/shop.js";
 import Cart from "./components/cart.js";
 import Login from "./components/login.js";
 import ProductDetails from "./components/productDetails";
+import Register from "./components/register";
 function App() {
   return (
     <Router>
@@ -35,9 +36,10 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/shop" exact component={Shop} />
-          <Route path="/cart" exact component={Cart} />
+          <Route path="/cart/:id/:qty" exact component={Cart} />
           <Route path="/login" exact component={Login} />
           <Route path="/shop/:id" exact component={ProductDetails} />
+          <Route path="/register" exact component={Register} />
         </Switch>
         <footer className="footer">All rights reserved (not really...)</footer>
       </div>

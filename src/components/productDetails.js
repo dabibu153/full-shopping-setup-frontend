@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
-
+import getOneProduct from "../redux/actions/oneProduct";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function ProductDetails(props) {
-  const [oneProduct, setOneProduct] = useState({});
+  const [qty, setQty] = useState(1);
+
+  const oneProductState = useSelector((state) => state.oneProductReducer);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getData = async () => {
@@ -12,28 +17,52 @@ function ProductDetails(props) {
       );
       console.log("from redux-one");
       console.log(data.data);
-      setOneProduct(data.data);
+
+      dispatch(getOneProduct(data.data));
     };
     getData();
   }, []);
 
+  const stockdata = (n) => {
+    let foo = [];
+    for (let i = 0; i < n; i++) {
+      foo.push(i + 1);
+    }
+    return foo;
+  };
+
   return (
     <div>
       <div className="one-product-container">
-        <h3>{oneProduct.name}</h3>
-        <h5>{oneProduct.brand}</h5>
+        <h3>{oneProductState.name}</h3>
+        <h5>{oneProductState.brand}</h5>
         <ul>
-          <li className="one-product-li">Cores: {oneProduct.cores}</li>
-          <li className="one-product-li">Threads: {oneProduct.threads}</li>
-          <li className="one-product-li">Base clock: {oneProduct.baseClock}</li>
+          <li className="one-product-li">Cores: {oneProductState.cores}</li>
+          <li className="one-product-li">Threads: {oneProductState.threads}</li>
           <li className="one-product-li">
-            Boost clock: {oneProduct.turboClock}
+            Base clock: {oneProductState.baseClock}
           </li>
-          <li className="one-product-li">Price: {oneProduct.price}</li>
           <li className="one-product-li">
-            Generation: {oneProduct.generation}
+            Boost clock: {oneProductState.turboClock}
+          </li>
+          <li className="one-product-li">Price: {oneProductState.price}</li>
+          <li className="one-product-li">
+            Generation: {oneProductState.generation}
           </li>
         </ul>
+        select quentity:
+        <select value={qty} onChange={(e) => setQty(e.target.value)}>
+          {stockdata(oneProductState.stock).map((a) => (
+            <option>{a}</option>
+          ))}
+        </select>
+        {oneProductState.stock > 0 ? (
+          <Link to={`/cart/${props.match.params.id}/${qty}`}>
+            <buton>add to cart</buton>
+          </Link>
+        ) : (
+          <div>out of stock</div>
+        )}
       </div>
     </div>
   );
