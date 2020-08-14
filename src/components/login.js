@@ -13,9 +13,15 @@ export default function Login() {
       email: email,
       password: pass,
     };
-    axios.post("http://localhost:5000/api/users/login", data).then((res) => {
-      setResult(res.data);
-    });
+    axios
+      .post("http://localhost:5000/api/users/login", data)
+      .then((res) => {
+        console.log(res.data);
+        setResult(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -23,7 +29,7 @@ export default function Login() {
       <form>
         <label>email:</label>
         <input
-          type="email"
+          type="text"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         ></input>

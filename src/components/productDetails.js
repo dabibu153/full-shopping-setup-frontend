@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 function ProductDetails(props) {
   const [qty, setQty] = useState(1);
+  const [result, setResult] = useState("");
 
   const oneProductState = useSelector((state) => state.oneProductReducer);
   const dispatch = useDispatch();
@@ -30,6 +31,20 @@ function ProductDetails(props) {
     }
     return foo;
   };
+
+  const handleCartAdd=(e)=>{
+    e.preventDefault();
+    const data={
+      id: oneProductState._id,
+      qty: qty
+    }
+    axios
+    .post("http://localhost:5000/api/cart/add",data)
+    .then(res=>{
+      console.log(res.data);
+      setResult(res.data);
+    })
+  }
 
   return (
     <div>
@@ -57,9 +72,7 @@ function ProductDetails(props) {
           ))}
         </select>
         {oneProductState.stock > 0 ? (
-          <Link to={`/cart/${props.match.params.id}/${qty}`}>
-            <buton>add to cart</buton>
-          </Link>
+          <buton onClick={e={handleCartAdd(e)}}>add to cart</buton>
         ) : (
           <div>out of stock</div>
         )}

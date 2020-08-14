@@ -14,12 +14,15 @@ export default function Register() {
       email: email,
       password: pass,
     };
-    const res = await axios.post(
-      "http://localhost:5000/api/users/register",
-      data
-    );
-    console.log(res.data);
-    setResult(res.data);
+    axios
+      .post("http://localhost:5000/api/users/register", data)
+      .then((res) => {
+        console.log(res.data);
+        setResult(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div>
@@ -40,7 +43,7 @@ export default function Register() {
         <br />
         <label>password</label>
         <input
-          type="text"
+          type="password"
           value={pass}
           onChange={(e) => setPass(e.target.value)}
         ></input>
