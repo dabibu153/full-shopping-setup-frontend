@@ -3,6 +3,7 @@ import getOneProduct from "../redux/actions/oneProduct";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import cookies from "js-cookie";
 
 function ProductDetails(props) {
   const [qty, setQty] = useState(1);
@@ -36,8 +37,7 @@ function ProductDetails(props) {
     e.preventDefault();
     let config = {
       headers: {
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjM1NTI3M2ZlYjUxMzM5YzAxN2E5NDgiLCJpYXQiOjE1OTc0NzE4NTcsImV4cCI6MTU5NzQ3NTQ1N30.sEf4qbzSFRdZd8JQvsnXarJQfdW44J4QQOeme3ik82k",
+        "auth-token": cookies.get("auth_token"),
       },
     };
     let data = {
