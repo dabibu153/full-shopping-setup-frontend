@@ -32,19 +32,27 @@ function ProductDetails(props) {
     return foo;
   };
 
-  const handleCartAdd=(e)=>{
+  const handleCartAdd = (e) => {
     e.preventDefault();
-    const data={
-      id: oneProductState._id,
-      qty: qty
-    }
+    let config = {
+      headers: {
+        "auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjM1NTI3M2ZlYjUxMzM5YzAxN2E5NDgiLCJpYXQiOjE1OTc0NzE4NTcsImV4cCI6MTU5NzQ3NTQ1N30.sEf4qbzSFRdZd8JQvsnXarJQfdW44J4QQOeme3ik82k",
+      },
+    };
+    let data = {
+      productId: oneProductState._id,
+      qty: qty,
+      userId: "",
+    };
     axios
-    .post("http://localhost:5000/api/cart/add",data)
-    .then(res=>{
-      console.log(res.data);
-      setResult(res.data);
-    })
-  }
+      .post("http://localhost:5000/api/cart/add", data, config)
+      .then((res) => {
+        console.log(res.data);
+        console.log("axios-then");
+        setResult(res.data);
+      });
+  };
 
   return (
     <div>
@@ -72,7 +80,7 @@ function ProductDetails(props) {
           ))}
         </select>
         {oneProductState.stock > 0 ? (
-          <buton onClick={e={handleCartAdd(e)}}>add to cart</buton>
+          <button onClick={(e) => handleCartAdd(e)}>add to cart</button>
         ) : (
           <div>out of stock</div>
         )}
